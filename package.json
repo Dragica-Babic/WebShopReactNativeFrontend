@@ -1,0 +1,32 @@
+{
+    "name": "web-shop",
+    "version": "0.0.1",
+    "private": true,
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ],
+        "nohoist": [
+            "**/react",
+            "**/react-dom",
+            "**/react-native",
+            "**/react-native/**",
+            "**/react-native-windows",
+            "**/react-native-web"
+        ]
+    },
+    "scripts": {
+        "android:start": "yarn workspace @web-shop/android-app android",
+        "windows:start": "yarn workspace @web-shop/windows windows",
+        "web:start": "yarn workspace @web-shop/web-app start"
+    },
+    "dependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "@react-navigation/native": "^6.1.9",
+        "@react-navigation/native-stack": "^6.9.16",
+        "@reduxjs/toolkit": "^1.9.7",
+        "react-native-safe-area-context": "^4.7.4",
+        "react-native-screens": "^3.27.0",
+        "react-redux": "^8.1.3"
+    }
+}
