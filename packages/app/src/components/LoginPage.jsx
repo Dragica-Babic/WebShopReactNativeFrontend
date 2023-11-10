@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/slices/userSlice";
 
@@ -42,8 +42,10 @@ const LoginPage = ({navigation}) => {
                     placeholder="Lozinka"
                     secureTextEntry={true}
                 />
-                <Button title="Prijavi se" color={'#0e4a38'}
-                onPress={() => saveCredentials()}></Button>
+                <Pressable onPress={saveCredentials} style={styles.btn}>
+                    <Text style={styles.btnText}>Prijavi se</Text>
+                </Pressable>
+                
             </View>
         </View>
     )
@@ -65,11 +67,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
     },
-    btn: {
-        color: '#fff',
-        backgroundColor: '#0e4a38',
-        width: 200,
-    },
     header: {
         
         paddingHorizontal: 24,
@@ -80,6 +77,19 @@ const styles = StyleSheet.create({
     text: {
         paddingTop:14,
         fontSize: 40,
+        color: '#fff'
+    },
+    btn:{
+        width:200,
+        backgroundColor:'#0e4a38',
+        height:35,
+        color:'#fff',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    btnText:{
+        fontSize:18,
         color: '#fff'
     }
 })

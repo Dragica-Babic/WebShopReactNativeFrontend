@@ -32,8 +32,9 @@ const Items=({navigation})=>{
           {isLoading ? (
           <ActivityIndicator />
             ) : (
-          <View style={styles.container}>
+          <View style={styles.container} >
             <FlatList data={items}
+            showsHorizontalScrollIndicator={false}
              numColumns={col}
              key={col}
              keyExtractor={({id}) => id}

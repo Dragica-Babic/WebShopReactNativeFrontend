@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import {
   StyleSheet,
@@ -15,14 +14,14 @@ import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const authenticated=useSelector(state=>state.users).authenticated;
+  const authenticated=useSelector(state=>state.users).authenticated
 
   const linking={
     config:{
       screens: {
         Login: 'login',
         Items:'items',
-        Details:'details'
+        Details:'items/:id'
       },
     }
   }

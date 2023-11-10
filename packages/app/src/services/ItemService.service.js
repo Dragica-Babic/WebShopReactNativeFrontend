@@ -13,6 +13,19 @@ const getItems= async({setLoading, setItems})=>{
   }
 };
 
+const getActiveOffers=async({userId, setItems, setLoading})=>{
+  try{
+    const response = await fetch("http://localhost:8080/items/user/"+userId);
+    const json=await response.json();
+    setItems(json);
+  } catch (error) {
+    console.error(error);
+  } 
+  finally{
+    setLoading(false);
+  }
+}
+
 const getItemById= async ({id, setItem})=>{
   try{
     const response=await fetch("http://localhost:8080/items/"+id);
@@ -27,7 +40,8 @@ const getItemById= async ({id, setItem})=>{
 
 const ItemService={
   getItems,
-  getItemById
+  getItemById,
+  getActiveOffers
 }
 
 export default ItemService;

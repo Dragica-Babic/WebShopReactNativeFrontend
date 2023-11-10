@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button, Pressable } from "react-native";
 
 const Card=({title, price, image, details} )=>{
     return(
@@ -14,8 +14,9 @@ const Card=({title, price, image, details} )=>{
                        <Image style={styles.img} source={require(`../images/${image}`)} />
                       <View style={styles.details}>
                           <Text>{price}KM</Text>
-                          <Button title="Detalji" color={'#0e4a38'} width='200' height='20'
-                          onPress={details}></Button>
+                          <Pressable style={styles.btn} onPress={details}>
+                            <Text style={styles.btnText}>Detalji</Text>
+                          </Pressable>
                       </View>
                   </View> 
               </View> 
@@ -60,9 +61,22 @@ const styles = StyleSheet.create({
     details:{
         width:'100%',
         padding: 5,
-          flexDirection:"row",
-          justifyContent:"space-between"
-      },
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    btn:{
+        width:80,
+        backgroundColor:'#0e4a38',
+        height:30,
+        color:'#fff',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    btnText:{
+        color: '#fff',
+        fontSize:16
+    }
 }); 
 
 export default Card;
