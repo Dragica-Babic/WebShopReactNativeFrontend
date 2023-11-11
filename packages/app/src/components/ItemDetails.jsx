@@ -1,6 +1,5 @@
-import { ScrollView, StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import {useState, useEffect} from 'react';
-import Header from "./Header";
 import ItemService from '../services/ItemService.service'
 
 const ItemDetails=({route, navigation})=>{
@@ -12,8 +11,7 @@ const ItemDetails=({route, navigation})=>{
     }, [id])
     
     return(
-        <View>
-            <Header/>
+        
         <View style={styles.container}>
             
             <View style={styles.descriptionContainer}>
@@ -38,7 +36,6 @@ const ItemDetails=({route, navigation})=>{
                     <Text style={styles.text}>{item?.location}</Text>
                 </View>
             </View>
-        </View>
         </View>
     )
 }

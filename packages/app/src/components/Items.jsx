@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, View, ActivityIndicator, Platform } from "react-native";
 import { useState, useEffect } from "react";
 import Card from './Card'
-import Header from "./Header";
 import ItemService from '../services/ItemService.service'
 
 const Items=({navigation})=>{
@@ -26,9 +25,7 @@ const Items=({navigation})=>{
 
     return(
       <View>
-        <Header/>
         <View style={{flex: 1, padding: 24}}>
-          
           {isLoading ? (
           <ActivityIndicator />
             ) : (

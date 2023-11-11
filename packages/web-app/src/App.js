@@ -4,12 +4,13 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import LoginPage from '../../app/src/components/LoginPage';
+import Login from './components/Login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Items from '../../app/src/components/Items';
-import ItemDetails from '../../app/src/components/ItemDetails';
+import Details from './components/Details';
 import { useSelector } from 'react-redux';
+import Offers from './components/Offers';
+import ItemList from './components/ItemList';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,14 +22,15 @@ function App() {
       screens: {
         Login: 'login',
         Items:'items',
-        Details:'items/:id'
+        Details:'items/:id',
+        Offers:'offers'
       },
     }
   }
   
   if(!authenticated){
     return(
-      <LoginPage />
+      <Login />
     )
   }
 
@@ -36,8 +38,9 @@ function App() {
     
     <NavigationContainer linking={linking} style={styles.container}>
       <Stack.Navigator>
-          <Stack.Screen name="Items" options={{headerShown: false}} component={Items} />
-          <Stack.Screen name="Details" options={{headerShown: false}} component={ItemDetails} />
+          <Stack.Screen name="Items" options={{headerShown: false}} component={ItemList} />
+          <Stack.Screen name="Details" options={{headerShown: false}} component={Details} />
+          <Stack.Screen name="Offers" options={{headerShown: false}} component={Offers} />
       </Stack.Navigator>
     </NavigationContainer>
     

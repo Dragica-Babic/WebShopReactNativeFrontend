@@ -2,15 +2,30 @@ import { ImageBackground, Pressable, StyleSheet, Text, View, } from "react-nativ
 import {logout} from '../redux/slices/userSlice';
 import { useDispatch } from "react-redux";
 
-const Header=()=>{
+const Header=({navigation})=>{
     const dispatch=useDispatch();
+
+    const goToMyOffers=()=>{
+        navigation.navigate('Offers')
+    }
+
+    const goToStartPage=()=>{
+        navigation.navigate('Items');
+    }
+
     return(
         <View style={styles.header}>
-            <Text style={styles.text}>Web Shop</Text>
-            <Pressable onPress={()=>dispatch(logout())}>
-                <ImageBackground source={require('../assets/baseline_logout_white_24dp.png')}
-                resizeMode="cover" style={styles.image} />
-            </Pressable>
+            <Text onPress={goToStartPage} style={styles.text}>Web Shop</Text>
+            <View style={styles.menu}>
+                <Pressable style={{marginRight:15}} onPress={goToMyOffers}>
+                    <ImageBackground source={require('../assets/baseline_list_white_24dp.png')}
+                        resizeMode="cover" style={styles.image} />
+                </Pressable>
+                <Pressable onPress={()=>dispatch(logout())}>
+                    <ImageBackground source={require('../assets/baseline_logout_white_24dp.png')}
+                    resizeMode="cover" style={styles.image} />
+                </Pressable>
+            </View>
         </View>
     )
 }
@@ -33,6 +48,10 @@ const styles=StyleSheet.create({
         width:30,
         height:30
       },
+    menu:{
+        display:'flex',
+        flexDirection:'row',
+    }
 })
 
 export default Header;

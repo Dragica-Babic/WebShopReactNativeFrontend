@@ -24,10 +24,6 @@ const LoginPage = ({navigation}) => {
     }
 
     return (
-        <View style={styles.parent}>
-            <View style={styles.header}>
-                <Text style={styles.text}>Web Shop</Text>
-            </View>
             <View style={styles.container}>
                     <Text>Prijava na sistem</Text>
                     <TextInput style={styles.input}
@@ -47,14 +43,10 @@ const LoginPage = ({navigation}) => {
                 </Pressable>
                 
             </View>
-        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    parent: {
-        flex: 1
-    },
     container: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -66,18 +58,6 @@ const styles = StyleSheet.create({
         margin: 12,
         borderWidth: 1,
         padding: 10,
-    },
-    header: {
-        
-        paddingHorizontal: 24,
-        height: 80,
-        backgroundColor: '#0e4a38',
-        justifyContent:'space-between'
-    },
-    text: {
-        paddingTop:14,
-        fontSize: 40,
-        color: '#fff'
     },
     btn:{
         width:200,

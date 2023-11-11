@@ -8,14 +8,11 @@ const logoutAction=(state, action)=>{
     state.user=null;
 }
 
-export const login=createAsyncThunk("login", ({username, password})=>
+export const login=createAsyncThunk("login", async({username, password})=>
 {
     try{
-    LoginService.login(username, password).then(
-        res=>{
-            let user=res;
-            return user;
-        })}
+     return await LoginService.login(username, password);
+    }
         catch(e){
             console.log('Error: '+e)
         }
@@ -34,21 +31,19 @@ const userSlice=createSlice({
         logout:logoutAction
     },
     extraReducers: (builder)=>{
-        builder.addCase(login.pending, (state, {payload})=>{
+        builder.addCase(login.pending, (state, action)=>{
             console.log("loading")
             state.loading = true;
         })
-        .addCase(login.rejected, (state, {payload})=>{
-            console.log("rejected")
+        .addCase(login.rejected, (state, action)=>{
             state.authenticationFailed = true;
             state.loading = false;
         })
-        .addCase(login.fulfilled, (state, {payload})=>{
-            console.log("fulfilled")
+        .addCase(login.fulfilled, (state, action)=>{
             state.authenticated = true;
             state.authenticationFailed = false;
             state.loading = false;
-            state.user = payload;
+            state.user = action.payload;
         }) 
     }
 })
