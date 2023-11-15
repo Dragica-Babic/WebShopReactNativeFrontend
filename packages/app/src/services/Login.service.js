@@ -1,7 +1,7 @@
-
+import url from '../environment/config.json';
 
 const login= async(username, password)=>{
-  const response=await fetch("http://localhost:8080/login", {
+  const response=await fetch(url.url+"/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,23 +1,21 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
-const { getMetroTools } = require("react-native-monorepo-tools");
-const exclusionList = require('metro-config/src/defaults/exclusionList');
- 
-const monorepoMetroTools = getMetroTools();
+const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
 
-module.exports = {
-    transformer: {
-      getTransformOptions: async () => ({
-        transform: {
-          experimentalImportSupport: false,
-          inlineRequires: false,
-        },
-      }),
-    },
+// Find the project and workspace directories
+const projectRoot = __dirname;
+// This can be replaced with `find-yarn-workspace-root`
+const workspaceRoot = path.resolve(projectRoot, '../..');
 
-   watchFolders: monorepoMetroTools.watchFolders,
-   resolver: {
+const config = getDefaultConfig(projectRoot);
 
-    blockList: exclusionList(monorepoMetroTools.blockList),
-    extraNodeModules: monorepoMetroTools.extraNodeModules,
-  },
-};
+// 1. Watch all files within the monorepo
+config.watchFolders = [workspaceRoot];
+// 2. Let Metro know where to resolve packages and in what order
+config.resolver.nodeModulesPaths = [
+  path.resolve(projectRoot, 'node_modules'),
+  path.resolve(workspaceRoot, 'node_modules'),
+];
+// 3. Force Metro to resolve (sub)dependencies only from the `nodeModulesPaths`
+config.resolver.disableHierarchicalLookup = true;
+
+module.exports = config;

@@ -6,8 +6,8 @@ import { login } from "../redux/slices/userSlice";
 
 const LoginPage = ({navigation}) => {
     const dispatch=useDispatch();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const [credentials, setCredentials] = useState({
         username: "",
         password: "",

@@ -30,7 +30,12 @@ function App() {
   
   if(!authenticated){
     return(
-      <Login />
+      <NavigationContainer linking={linking} style={styles.container}>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" options={{headerShown:false}} component={Login}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+      
     )
   }
 

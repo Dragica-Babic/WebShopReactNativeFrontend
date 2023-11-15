@@ -1,9 +1,13 @@
-/**
- * @format
- */
+import { registerRootComponent } from 'expo';
+import { Provider } from 'react-redux';
 
-import {AppRegistry} from 'react-native';
 import App from './App';
-import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => App);
+import store from '../app/src/redux';
+
+    const ReduxApp = () => (
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+registerRootComponent(ReduxApp);

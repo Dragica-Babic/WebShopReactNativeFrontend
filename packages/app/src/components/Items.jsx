@@ -6,7 +6,7 @@ import ItemService from '../services/ItemService.service'
 const Items=({navigation})=>{
     const[items, setItems]=useState([])
     const [isLoading, setLoading] = useState(true);
-    const [col, setCol]=useState(3);
+    const [col, setCol]=useState(1);
 
 
     useEffect(() => {
@@ -14,18 +14,21 @@ const Items=({navigation})=>{
       }, []);
 
       const goToDetails=({item})=>
+      {
+        console.log(item.id)
          navigation.navigate('Details', {
           id:item.id
         })
+      }
 
     useEffect(()=>{
-      Platform.OS==='android'?setCol(2):setCol(3);
+      Platform.OS==='android'?setCol(1):setCol(3);
     }, [Platform.OS])
       
 
     return(
-      <View>
-        <View style={{flex: 1, padding: 24}}>
+      <View style={styles.container}>
+        <View style={styles.container}>
           {isLoading ? (
           <ActivityIndicator />
             ) : (
@@ -53,7 +56,7 @@ const Items=({navigation})=>{
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        flexDirection:"row"
+        width:'100%'
     }, 
 })
 

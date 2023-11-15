@@ -1,8 +1,8 @@
-
+import url from '../environment/config.json';
 
 const getCategories= async({ setCategories })=>{
     try {
-      const response = await fetch("http://localhost:8080/categories");
+      const response = await fetch(url.url+"/categories");
       const json = await response.json();
       setCategories(json);
     } catch (error) {

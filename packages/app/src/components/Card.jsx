@@ -10,8 +10,7 @@ const Card=({title, price, image, details} )=>{
                       </Text> 
                   </View>  
                   <View style={styles.content}> 
-                        
-                       <Image style={styles.img} source={require(`../images/${image}`)} />
+                       <Image style={styles.img} source={{uri: image}}/>
                       <View style={styles.details}>
                           <Text>{price}KM</Text>
                           <Pressable style={styles.btn} onPress={details}>
@@ -53,13 +52,14 @@ const styles = StyleSheet.create({
     content: { 
         flex:1,
         alignItems: 'center', 
+        width:'100%'
     }, 
     img:{
         width:200,
         height:200
     },
     details:{
-        width:'100%',
+        width:'80%',
         padding: 5,
         flexDirection:"row",
         justifyContent:"space-between"

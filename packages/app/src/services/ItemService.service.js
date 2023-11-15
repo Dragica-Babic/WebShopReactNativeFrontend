@@ -1,8 +1,8 @@
-
+import url from '../environment/config.json';
 
 const getItems= async({setLoading, setItems})=>{
   try {
-    const response = await fetch("http://localhost:8080/items/list");
+    const response = await fetch(url.url+"/items/list");
     const json = await response.json();
     setItems(json);
   } catch (error) {
@@ -15,7 +15,7 @@ const getItems= async({setLoading, setItems})=>{
 
 const getActiveOffers=async({userId, setItems, setLoading})=>{
   try{
-    const response = await fetch(`http://localhost:8080/items/user/${userId}`);
+    const response = await fetch(url.url+`/items/user/${userId}`);
     const json=await response.json();
     setItems(json.content);
   } catch (error) {
@@ -28,7 +28,7 @@ const getActiveOffers=async({userId, setItems, setLoading})=>{
 
 const getFinishedOffers=async({userId, setItems, setLoading})=>{
   try{
-    const response=await fetch(`http://localhost:8080/items/user-finished/${userId}`);
+    const response=await fetch(url.url+`/items/user-finished/${userId}`);
     const json=await response.json();
     setItems(json.content);
   } catch (error) {
@@ -41,7 +41,7 @@ const getFinishedOffers=async({userId, setItems, setLoading})=>{
 
 const getHistory=async({userId, setItems, setLoading})=>{
   try{
-    const response=await fetch(`http://localhost:8080/items/history/${userId}`);
+    const response=await fetch(url.url+`/items/history/${userId}`);
     const json=await response.json();
     setItems(json.content);
   } catch (error) {
@@ -54,7 +54,7 @@ const getHistory=async({userId, setItems, setLoading})=>{
 
 const getItemById= async ({id, setItem})=>{
   try{
-    const response=await fetch(`http://localhost:8080/items/${id}`);
+    const response=await fetch(url.url+`/items/${id}`);
     const json = await response.json();
     console.log(json);
     setItem(json);
@@ -64,12 +64,28 @@ const getItemById= async ({id, setItem})=>{
   };
 }
 
+const buyItem= async({id, userId})=>{
+  try{
+    const response=await fetch(url.url+`/items/buy/${id}`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:userId
+    });
+    return response;
+  }catch(error){
+    console.error(error);
+  }
+}
+
 const ItemService={
   getItems,
   getItemById,
   getActiveOffers,
   getFinishedOffers,
-  getHistory
+  getHistory,
+  buyItem
 }
 
 export default ItemService;

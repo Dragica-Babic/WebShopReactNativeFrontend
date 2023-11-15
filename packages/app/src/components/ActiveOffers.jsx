@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { FlatList, Pressable, StyleSheet, View, Text, ImageBackground, Image, ActivityIndicator } from "react-native";
+import { FlatList, Pressable, StyleSheet, View, Text, ImageBackground, Image, ActivityIndicator, Modal } from "react-native";
 import { useSelector } from "react-redux";
 import ItemService from "../services/ItemService.service";
 import Header from "./Header";
+import AddItem from "./AddItem";
 
 
 const ActiveOffers=()=>{
     const[items, setItems]=useState([])
     const[loading, setLoading]=useState(true)
     const userId=useSelector(state=>state.users.user.id)
+    const[modalVisible, setModalVisible]=useState(false)
 
     useEffect(()=>{
         ItemService.getActiveOffers({userId, setItems, setLoading})
@@ -16,9 +18,14 @@ const ActiveOffers=()=>{
 
     return(
         <View style={styles.container}>
-            <Pressable style={styles.btn}>
+            <Pressable onPress={()=>setModalVisible(true)} style={styles.btn} >
                 <Text style={styles.btnText}>+Dodaj ponudu</Text>
             </Pressable>
+
+            <Modal visible={modalVisible} animationType="slide" 
+                onRequestClose={() => { setModalVisible(!modalVisible);}}>
+                <AddItem />
+            </Modal>
             {loading ? (
           <ActivityIndicator />
             ) : (
@@ -32,7 +39,7 @@ const ActiveOffers=()=>{
              renderItem={({item})=>{
                 return(
                     <View style={styles.row}>
-                        <Image style={styles.img} source={require(`../images/${item.image}`)} />
+                        <Image style={styles.img} source={{uri: `../images/${item.image}`}}/>
                         <Text>{item.title}</Text>
                         <Text>{item.price}KM</Text>
                         <Pressable>
