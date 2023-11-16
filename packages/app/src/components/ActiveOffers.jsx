@@ -39,7 +39,7 @@ const ActiveOffers=()=>{
              renderItem={({item})=>{
                 return(
                     <View style={styles.row}>
-                        <Image style={styles.img} source={{uri: `../images/${item.image}`}}/>
+                        
                         <Text>{item.title}</Text>
                         <Text>{item.price}KM</Text>
                         <Pressable>

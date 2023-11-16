@@ -10,7 +10,7 @@ const Card=({title, price, image, details} )=>{
                       </Text> 
                   </View>  
                   <View style={styles.content}> 
-                       <Image style={styles.img} source={{uri: image}}/>
+                       <Image style={styles.img} source={{uri: "https://citymagazine.danas.rs/wp-content/uploads/2023/11/shutterstock_1986499289.jpg"}}/>
                       <View style={styles.details}>
                           <Text>{price}KM</Text>
                           <Pressable style={styles.btn} onPress={details}>
