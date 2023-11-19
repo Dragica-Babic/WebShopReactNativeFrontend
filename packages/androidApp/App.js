@@ -26,23 +26,7 @@ export default function App() {
             headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
-            },
-            headerRight: () => (
-              <View style={{ flex: 1 }}>
-                <Text>TergtrhvehbrhrhTT</Text>
-
-                <Pressable style={{ marginRight: 15 }}>
-                  <ImageBackground source={require('../app/src/assets/baseline_list_white_24dp.png')}
-                    style={styles.image} resizeMode="cover" />
-                  <Text>Prvo dugme</Text>
-                </Pressable>
-                <Pressable onPress={() => dispatch(logout())}>
-                  <ImageBackground source={require('../app/src/assets/baseline_logout_white_24dp.png')}
-                    style={styles.image} resizeMode="cover" />
-                  <Text>Proba</Text>
-                </Pressable>
-              </View>
-            )
+            }
           }} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -64,8 +48,8 @@ export default function App() {
             },
             headerRight: () => (
               <Pressable onPress={() => dispatch(logout())}>
-                <ImageBackground source={require('../app/src/assets/baseline_logout_white_24dp.png')}
-                  resizeMode="cover" style={{ height: 40, width: 40 }} />
+                <ImageBackground source={require('./assets/baseline_logout_white_24dp.png')}
+                  resizeMode="cover" style={styles.image} />
               </Pressable>
 
             ),
@@ -80,16 +64,11 @@ export default function App() {
               fontWeight: 'bold',
             },
             headerRight: () => (
-              <View>
-                <Pressable style={{ marginRight: 15 }} onPress={() => navigation.navigate('Offers')}>
-                  <ImageBackground source={require('../app/src/assets/baseline_list_white_24dp.png')}
-                    resizeMode="cover" style={styles.image} />
-                </Pressable>
+              
                 <Pressable onPress={() => dispatch(logout())}>
-                  <ImageBackground source={require('../app/src/assets/baseline_logout_white_24dp.png')}
+                  <ImageBackground source={require('./assets/baseline_logout_white_24dp.png')}
                     resizeMode="cover" style={styles.image} />
                 </Pressable>
-              </View>
             ),
           }} />
           <Stack.Screen name="Offers" component={AllOffers} options={{
@@ -102,19 +81,10 @@ export default function App() {
               fontWeight: 'bold',
             },
             headerRight: () => (
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Text>TTT</Text>
-
-                <Pressable style={{ marginRight: 15 }}>
-                  <Image source={require('../app/src/assets/baseline_list_white_24dp.png')}
-                    style={{ height: '30', width: '30' }} />
-                </Pressable>
                 <Pressable onPress={() => dispatch(logout())}>
-                  <ImageBackground source={require('../app/src/assets/baseline_logout_white_24dp.png')}
+                  <ImageBackground source={require('./assets/baseline_logout_white_24dp.png')}
                     style={styles.image} />
-                  <Text>Proba</Text>
                 </Pressable>
-              </View>
             ),
           }} />
         </Stack.Navigator>

@@ -16,7 +16,7 @@
         ]
     },
     "scripts": {
-        "android:start": "yarn workspace @web-shop/android-app android",
+        "android:start": "yarn workspace @web-shop/androidapp start",
         "windows:start": "yarn workspace @web-shop/windows windows",
         "web:start": "yarn workspace @web-shop/web-app start"
     },

@@ -1,16 +1,19 @@
 import url from '../environment/config.json';
 
-const getItems= async({setLoading, setItems})=>{
+const getItems= async({ setLoading,page, searchTerm, categoryId, lowerPrice, upperPrice, location})=>{
   try {
-    const response = await fetch(url.url+"/items/list");
+    const response = await fetch(url.url+`/items/all?page=${page}&size=12&search=${searchTerm}&categoryId=${categoryId}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}&location=${location}`,{
+      method:"GET"
+    });
     const json = await response.json();
-    setItems(json);
+    return json;
   } catch (error) {
     console.error(error);
   } 
   finally{
     setLoading(false);
   }
+  
 };
 
 const getActiveOffers=async({userId, setItems, setLoading})=>{
