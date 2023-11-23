@@ -55,12 +55,12 @@ const getHistory=async({userId, setItems, setLoading})=>{
   }
 }
 
-const getItemById= async ({id, setItem})=>{
+const getItemById= async ({id})=>{
   try{
     const response=await fetch(url.url+`/items/${id}`);
     const json = await response.json();
     console.log(json);
-    setItem(json);
+    return json;
   }
   catch(error){
     console.error(error);

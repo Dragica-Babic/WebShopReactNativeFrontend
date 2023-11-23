@@ -1,45 +1,49 @@
-import { StyleSheet, View, Text, Image, Platform, Pressable, Modal, Alert } from "react-native";
+import { StyleSheet, View, Text, Image, Platform, Pressable, Modal } from "react-native";
 import { useState, useEffect } from 'react';
 import ItemService from '../services/ItemService.service'
 import { useSelector } from "react-redux";
 import Questions from "./Questions";
 import UserService from "../services/User.service";
 import BuyItem from "./BuyItem";
+import Alert from "./Alert";
 
 const ItemDetails = ({ route, navigation }) => {
     const id = route.params.id;
     const [item, setItem] = useState(null);
     const loggedUserId = useSelector(state => state.users.user.id);
-    const[user, setUser]=useState(null)
-    const[isMyItem, setIsMyItem]=useState(false);
-    const[modalVisible, setModalVisible]=useState(false)
+    const [user, setUser] = useState(null)
+    const [isMyItem, setIsMyItem] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [alertVisible, setAlertVisible] = useState(false);
 
     useEffect(() => {
-        
-        ItemService.getItemById({ id }).then((res)=>{
-            setItem(res);
-            let userId=res.userId;
-            UserService.getUserById({userId}).then((result)=>{
-                setUser(result);
 
-                if(loggedUserId === res.userId){
+        ItemService.getItemById({ id }).then((res) => {
+            setItem(res);
+            let userId = res.userId;
+            UserService.getUserById({ userId }).then((result) => {
+                setUser(result);
+                if (loggedUserId === res.userId) {
                     setIsMyItem(true);
                 }
             })
         })
     }, [id])
 
-    const buyItem=()=>{
-        const response=ItemService.buyItem({id, userId:loggedUserId});
-        if(response){
-            Alert.alert('Uspješno ste kupili proizvod.');
+    const buyItem = () => {
+        const response = ItemService.buyItem({ id, userId: loggedUserId });
+        if (response) {
+            setAlertVisible(true);
         }
         setModalVisible(false)
-        navigation.navigate('Items')
     }
 
-    const onCancel=()=>{
+    const onCancel = () => {
         setModalVisible(false);
+    }
+
+    const closeAlert = () => {
+        setAlertVisible(false);
     }
 
     return (
@@ -54,10 +58,10 @@ const ItemDetails = ({ route, navigation }) => {
                     }
                 </View>
                 <View style={styles.description}>
-                    <Pressable onPress={()=>setModalVisible(true)} style={styles.btn}>
+                    <Pressable onPress={() => setModalVisible(true)} style={styles.btn}>
                         <Text style={styles.btnText}>Kupi</Text>
                     </Pressable>
-                    <Text style={{fontSize:24, fontWeight:'bold'}}>Osnovne informacije</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Osnovne informacije</Text>
                     <Text style={styles.title}>Opis</Text>
                     <Text style={styles.text}>{item?.description}</Text>
                     <Text style={styles.title}>Cijena</Text>
@@ -66,16 +70,18 @@ const ItemDetails = ({ route, navigation }) => {
                     <Text style={styles.text}>{item?.used ? "Novo" : "Korišteno"}</Text>
                     <Text style={styles.title}>Lokacija</Text>
                     <Text style={styles.text}>{item?.location}</Text>
-                    <Text style={{fontSize:24, fontWeight:'bold', marginTop:20}}>Vlasnik</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20 }}>Vlasnik</Text>
                     <Text style={styles.title}>{user?.accountUsername}</Text>
                     <Text style={styles.title}>Kontakt: {user?.email}</Text>
                     <Modal transparent visible={modalVisible}>
                         <BuyItem buyItem={buyItem} onCancel={onCancel} />
                     </Modal>
                 </View>
-
+                <Modal transparent visible={alertVisible}>
+                    <Alert title={"Informacija"} text={"Uspješno ste kupili proizvod!"} onOk={closeAlert} />
+                </Modal>
             </View>
-            <View style={{margin:30}}>
+            <View style={{ margin: 30 }}>
                 <Questions itemId={id} myItem={isMyItem} />
             </View>
         </View>
@@ -98,11 +104,11 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         paddingTop: 5,
-        marginLeft:5
+        marginLeft: 5
     },
     text: {
         padding: 5,
-        marginLeft:5
+        marginLeft: 5
     },
     descriptionContainer: {
         flex: 1,
@@ -132,7 +138,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         display: 'flex',
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     actionBtn: {
         width: 100,

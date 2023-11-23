@@ -1,5 +1,6 @@
 import { FlatList, StyleSheet, View, ActivityIndicator, Platform, TextInput, Pressable, Image, Modal, Text } from "react-native";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import Card from './Card'
 import ItemService from '../services/ItemService.service'
 import Filter from "./Filter";
@@ -20,15 +21,19 @@ const Items = ({ navigation }) => {
   const [filter, setFilter] = useState(false);
   const [rmFilters, setRmFilters] = useState(false);
 
-  useEffect(() => {
-    ItemService.getItems({ setLoading, page, searchTerm, categoryId, lowerPrice, upperPrice, location })
+
+  useFocusEffect(
+    React.useCallback(()=>{
+      ItemService.getItems({ setLoading, page, searchTerm, categoryId, lowerPrice, upperPrice, location })
       .then((res) => {
         setItems([...items, ...res.content]);
         if (res.numberOfElements < 12) {
           setHasMoreToLoad(false);
         }
       })
-  }, [page, searchTerm, filter]);
+    }, [page, searchTerm, filter])
+    
+  );
 
   useEffect(() => {
     if (categoryId != "" || upperPrice != "" || lowerPrice != "" || location != "") {
