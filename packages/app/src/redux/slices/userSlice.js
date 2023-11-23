@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import LoginService from "../../services/Login.service";
+import UserService from "../../services/User.service";
 
 const logoutAction = (state, action) => {
     state.authenticated = false;
@@ -10,7 +10,7 @@ const logoutAction = (state, action) => {
 
 export const login = createAsyncThunk("login", async ({ username, password }) => {
     try {
-        return await LoginService.login(username, password);
+        return await UserService.login(username, password);
     }
     catch (e) {
         console.log('Error: ' + e)
