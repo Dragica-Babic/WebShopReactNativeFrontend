@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="6476b130-6c1b-4ac9-a1ce-14a190ef951d"
-    Publisher="CN=Dragica Babic"
+    Name="258b6731-5db1-4849-9d15-cbbbbab08d20"
+    Publisher="CN=dragica"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="6476b130-6c1b-4ac9-a1ce-14a190ef951d" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="258b6731-5db1-4849-9d15-cbbbbab08d20" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>windowsApp</DisplayName>
-    <PublisherDisplayName>Dragica Babic</PublisherDisplayName>
+    <PublisherDisplayName>dragica</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

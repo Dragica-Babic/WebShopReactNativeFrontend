@@ -1,6 +1,6 @@
 import {View} from 'react-native';
-import Header from '../../../app/src/components/Header';
-import ItemDetails from '../../../app/src/components/ItemDetails';
+import Header from '@web-shop/app/src/components/global/Header';
+import ItemDetails from '@web-shop/app/src/components/ItemList/ItemDetails';
 
 const Details=({route, navigation})=>{
     return(

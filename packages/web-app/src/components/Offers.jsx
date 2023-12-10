@@ -1,6 +1,6 @@
 import {View} from 'react-native';
-import Header from '../../../app/src/components/Header';
-import AllOffers from '../../../app/src/components/AllOffers';
+import Header from "@web-shop/app/src/components/global/Header"
+import AllOffers from "@web-shop/app/src/components/Offers/AllOffers"
 
 const Offers=({navigation})=>{
     return(

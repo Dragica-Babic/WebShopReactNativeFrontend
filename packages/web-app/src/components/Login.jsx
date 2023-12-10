@@ -1,13 +1,13 @@
 import {View, Text, StyleSheet} from 'react-native';
-import LoginPage from '../../../app/src/components/LoginPage';
+import LoginPage from '@web-shop/app/src/components/StartPage/LoginPage';
 
-const Login=()=>{
+const Login=({navigation})=>{
     return(
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text}>Web Shop</Text>
             </View>
-            <LoginPage/>
+            <LoginPage navigation={navigation}/>
         </View>
     )
 }

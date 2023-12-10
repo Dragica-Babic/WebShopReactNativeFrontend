@@ -1,5 +1,5 @@
-import Header from "../../../app/src/components/Header";
-import Items from "../../../app/src/components/Items";
+import Header from "@web-shop/app/src/components/global/Header"
+import Items from "@web-shop/app/src/components/ItemList/Items"
 import {View} from 'react-native';
 
 

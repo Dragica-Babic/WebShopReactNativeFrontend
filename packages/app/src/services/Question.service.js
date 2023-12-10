@@ -31,7 +31,7 @@ const askQuestion = async ({ question, itemId, userId }) => {
 
 const answerQuestion = async ({ answer, question }) => {
     try {
-        const id=question.id;
+        const id = question.id;
         const response = await fetch(url.url + `/questions/${id}`, {
             method: "PUT",
             headers: {

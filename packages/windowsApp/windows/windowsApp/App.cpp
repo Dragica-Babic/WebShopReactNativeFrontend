@@ -4,6 +4,7 @@
 
 #include "AutolinkedNativeModules.g.h"
 #include "ReactPackageProvider.h"
+#include "winrt/ReactNativePicker.h"
 
 using namespace winrt;
 using namespace xaml;
@@ -32,8 +33,6 @@ App::App() noexcept
 
 #if _DEBUG
     InstanceSettings().UseDeveloperSupport(true);
-    InstanceSettings().UseWebDebugger(true);
-    InstanceSettings().UseDirectDebugger(false);
 #else
     InstanceSettings().UseDeveloperSupport(false);
 #endif
@@ -41,6 +40,8 @@ App::App() noexcept
     RegisterAutolinkedNativeModulePackages(PackageProviders()); // Includes any autolinked modules
 
     PackageProviders().Append(make<ReactPackageProvider>()); // Includes all modules in this project
+
+    PackageProviders().Append(winrt::ReactNativePicker::ReactPackageProvider());
 
     InitializeComponent();
 }
