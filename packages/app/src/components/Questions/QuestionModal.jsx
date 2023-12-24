@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     input: {
         width: 300,
         borderWidth: 1,
-        margin: 10
+        margin: 10,
+        height:67
     }
 })
 

@@ -47,7 +47,7 @@ const Filter = ({ removeFilters, setCategoryId, categoryId, setLowerPrice, setUp
                     <TextInput placeholder="Do" style={styles.input} keyboardType="numeric" onChangeText={(val) => setUpperPrice(val)} />
                 </View>
             </View>
-            <View style={{ marginTop: Platform.OS === 'windows' ? 60 : 10 }}>
+            <View style={{ marginTop: Platform.OS !== 'web' ? 60 : 10 }}>
                 <Text style={styles.text}>Lokacija</Text>
                 <TextInput onChangeText={(val) => setLocation(val)} style={styles.input} />
             </View>
