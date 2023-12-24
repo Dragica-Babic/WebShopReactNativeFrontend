@@ -1,6 +1,6 @@
 import { Text } from 'react-native';
 import LoginPage from '@web-shop/app/src/components/StartPage/LoginPage';
-import Items from '@web-shop/app/src/components/ItemList/Items.windows';
+import Items from '@web-shop/app/src/components/ItemList/Items';
 import ItemDetails from '@web-shop/app/src/components/ItemList/ItemDetails';
 import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
@@ -40,7 +40,7 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="Items" component={Items} />
             <Stack.Screen name="Details" component={ItemDetails} />
-            <Stack.Screen name="ActiveOffers" component={ActiveOffers} />
+            <Stack.Screen name="Offers" component={ActiveOffers} />
             <Stack.Screen name='FinishedOffers' component={FinishedOffers} />
             <Stack.Screen name='History' component={ShoppingHistory} />
           </Stack.Navigator>
