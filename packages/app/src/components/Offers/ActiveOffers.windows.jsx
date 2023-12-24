@@ -34,19 +34,20 @@ const ActiveOffers = ({ navigation }) => {
         }
 
         const buttons = [];
-
-        for (let i = startPage; i < endPage; i++) {
-            buttons.push(
-                <Pressable
-                    key={i}
-                    onPress={() => handlePageClick(i)}
-                    style={[
-                        styles.paginationButton,
-                        i === currentPage ? styles.activeButton : null,
-                    ]}>
-                    <Text style={{ color: 'white' }}>{i}</Text>
-                </Pressable>,
-            );
+        if (startPage !== endPage - 1) {
+            for (let i = startPage; i < endPage; i++) {
+                buttons.push(
+                    <Pressable
+                        key={i}
+                        onPress={() => handlePageClick(i)}
+                        style={[
+                            styles.paginationButton,
+                            i === currentPage ? styles.activeButton : null,
+                        ]}>
+                        <Text style={{ color: 'white' }}>{i}</Text>
+                    </Pressable>,
+                );
+            }
         }
 
         return buttons;

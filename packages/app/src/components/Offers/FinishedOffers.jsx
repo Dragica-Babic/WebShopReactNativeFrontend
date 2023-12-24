@@ -27,21 +27,21 @@ const FinishedOffers = () => {
         }
 
         const buttons = [];
-
-        for (let i = startPage; i < endPage; i++) {
-            buttons.push(
-                <Pressable
-                    key={i}
-                    onPress={() => handlePageClick(i)}
-                    style={[
-                        styles.paginationButton,
-                        i === currentPage ? styles.activeButton : null,
-                    ]}>
-                    <Text style={{ color: 'white' }}>{i}</Text>
-                </Pressable>,
-            );
+        if (startPage !== endPage - 1) {
+            for (let i = startPage; i < endPage; i++) {
+                buttons.push(
+                    <Pressable
+                        key={i}
+                        onPress={() => handlePageClick(i)}
+                        style={[
+                            styles.paginationButton,
+                            i === currentPage ? styles.activeButton : null,
+                        ]}>
+                        <Text style={{ color: 'white' }}>{i}</Text>
+                    </Pressable>,
+                );
+            }
         }
-
         return buttons;
     };
 
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0e4a38',
     },
     activeButton: {
-        backgroundColor: '#22c55d',
+        backgroundColor: '#0e4a38',
         width: 50,
         height: 50,
         borderRadius: 25,
