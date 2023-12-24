@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Pressable, Image } from "react-native";
+import { Text, View, StyleSheet, Pressable } from "react-native";
 import UserService from "../../services/User.service";
 
 const FinishedOfferInfo = ({ item, onCancel }) => {
