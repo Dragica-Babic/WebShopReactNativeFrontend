@@ -36,7 +36,7 @@ const BuyItem = ({ buyItem, onCancel }) => {
                     <View style={{ flexDirection: 'row' }}>
                         <Checkbox disabled={false} value={cardPaying}
                             onValueChange={(val) => setCardPaying(val)}
-                            color={'green'} />
+                            color={'#0e4a38'} />
                         <Text style={styles.text}>Plaćanje karticom</Text>
                     </View>
                     <TextInput style={styles.input} keyboardType="numeric" readOnly={!cardPaying} onChangeText={(num) => addCardNumber(num)} />
@@ -44,7 +44,7 @@ const BuyItem = ({ buyItem, onCancel }) => {
                 <View style={{ margin: 10, flexDirection: 'row' }}>
                     <Checkbox disabled={false} value={!cardPaying}
                         onValueChange={(val) => setCardPaying(!val)}
-                        color={'green'} />
+                        color={'#0e4a38'} />
                     <Text style={styles.text}>Plaćanje prilikom preuzimanja</Text>
                 </View>
                 <View style={{ backgroundColor: "green", height: 2, margin: 2 }} />
