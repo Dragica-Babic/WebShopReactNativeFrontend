@@ -13,22 +13,26 @@ const UpdateUser = ({ user, onCancel }) => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState(user?.email);
     const [address, setAddress] = useState(user?.address);
+    const [warning, setWarning]=useState('');
 
     const updateUser = () => {
-        const request = {
-            ...user,
-            "name": name,
-            "surname": surname,
-            "username": username,
-            "password": password,
-            "email": email,
-            "address": address
+        if (name !== '' && surname !== '' && username !== '' && email !== '' && address !== '') {
+            const request = {
+                ...user,
+                "name": name,
+                "surname": surname,
+                "username": username,
+                "password": password,
+                "email": email,
+                "address": address
+            }
+            UserService.updateUser(id, request).then((res) => {
+                dispatch(update(res));
+            })
+            onCancel();
+        } else { 
+            setWarning("Sva obavezna polja moraju biti popunjena!");
         }
-        UserService.updateUser(id, request).then((res) => {
-            dispatch(update(res));
-        })
-
-        onCancel();
     }
 
     return (
@@ -38,21 +42,21 @@ const UpdateUser = ({ user, onCancel }) => {
             </View>
             <View>
                 <View style={{ backgroundColor: "green", height: 2, margin: 2 }} />
-                <Text>Ime:</Text>
+                <Text>Ime*:</Text>
                 <TextInput style={styles.input}
                     value={name}
                     onChangeText={setName}
                 />
             </View>
             <View>
-                <Text>Prezime:</Text>
+                <Text>Prezime*:</Text>
                 <TextInput style={styles.input}
                     value={surname}
                     onChangeText={setSurname}
                 />
             </View>
             <View>
-                <Text>Korisničko ime:</Text>
+                <Text>Korisničko ime*:</Text>
                 <TextInput style={styles.input}
                     value={username}
                     onChangeText={setUsername}
@@ -67,18 +71,21 @@ const UpdateUser = ({ user, onCancel }) => {
                 />
             </View>
             <View>
-                <Text>E-mail adresa:</Text>
+                <Text>E-mail adresa*:</Text>
                 <TextInput style={styles.input}
                     value={email}
                     onChangeText={setEmail}
                 />
             </View>
             <View>
-                <Text>Adresa:</Text>
+                <Text>Adresa*:</Text>
                 <TextInput style={styles.input}
                     value={address}
                     onChangeText={setAddress}
                 />
+            </View>
+            <View>
+                <Text style={{color:'red'}}>{warning}</Text>
             </View>
             <View style={styles.row}>
                 <Pressable style={styles.btn} onPress={updateUser}>
