@@ -1,17 +1,22 @@
-import { Image, Modal, Pressable, StyleSheet, Text, View, } from "react-native"
+import { Image, Pressable, StyleSheet, Text, View, } from "react-native"
 import { useState } from "react";
 import { logout } from '../../redux/slices/userSlice';
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import UpdateUser from "./UpdateUser";
+import ModalComponent from "./ModalComponent";
+import url from '../../environment/config.json';
 
 const Header = ({ navigation }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.users.user);
+    const authenticated = useSelector(state => state.users.authenticated);
     const [modalVisible, setModalVisible] = useState(false);
 
     const goToStartPage = () => {
-        navigation.navigate('Items');
+        if (authenticated) {
+            navigation.navigate('Items');
+        }
     }
 
     const onCancel = () => {
@@ -21,20 +26,21 @@ const Header = ({ navigation }) => {
     return (
         <View style={styles.header}>
             <Text onPress={goToStartPage} style={styles.text}>Web Shop</Text>
-            <View style={styles.menu}>
-                <Pressable onPress={() => setModalVisible(true)} style={{ marginRight: 30 }}>
-                    <Image source={{ uri: 'http://192.168.0.182:8080/uploads/assets/baseline_account_circle_white_24dp.png' }}
-                        resizeMode="cover" style={styles.image} />
-                </Pressable>
-                <Pressable onPress={() => dispatch(logout())}>
-                    <Image source={{ uri: 'http://192.168.0.182:8080/uploads/assets/baseline_logout_white_24dp.png' }}
-                        resizeMode="cover" style={styles.image} />
-                </Pressable>
-                <Modal transparent visible={modalVisible} >
-                    <UpdateUser user={user} onCancel={onCancel} />
-                </Modal>
+            {authenticated ? (
+                <View style={styles.menu}>
+                    <Pressable onPress={() => setModalVisible(true)} style={{ marginRight: 30 }}>
+                        <Image source={{ uri: `${url.url}/uploads/assets/baseline_account_circle_white_24dp.png` }}
+                            resizeMode="cover" style={styles.image} />
+                    </Pressable>
+                    <Pressable onPress={() => dispatch(logout())}>
+                        <Image source={{ uri: `${url.url}/uploads/assets/baseline_logout_white_24dp.png` }}
+                            resizeMode="cover" style={styles.image} />
+                    </Pressable>
+                    <ModalComponent visible={modalVisible} component={() => <UpdateUser user={user} onCancel={onCancel} />} />
 
-            </View>
+                </View>
+            ) : null}
+
         </View>
     )
 }

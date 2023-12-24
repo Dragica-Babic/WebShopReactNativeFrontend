@@ -1,8 +1,8 @@
-import { StyleSheet, View, Modal, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import QuestionModal from "./QuestionModal";
 import QuestionService from "../../services/Question.service";
 import { useState } from "react";
-
+import ModalComponent from '../global/ModalComponent';
 
 const Question = ({ item, myItem }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -23,18 +23,16 @@ const Question = ({ item, myItem }) => {
     return (
         <View>
             <View style={styles.question}>
-                <Text>{item?.userAccountUsername}</Text>
-                <Text>{item?.question}</Text>
+                <Text style={{fontSize:20, margin:5}}>{item?.userUsername}</Text>
+                <Text style={{marginLeft:5}}>{item?.question}</Text>
                 {myItem ? (
                     <View>
                         <Pressable style={styles.btn} onPress={() => setModalVisible(true)}>
                             <Text>Odgovori</Text>
                         </Pressable>
-                        <Modal transparent visible={modalVisible}>
-                            <QuestionModal inputAction={setAnswer} title="Odgovor"
+                        <ModalComponent visible={modalVisible} component={()=><QuestionModal inputAction={setAnswer} title="Odgovor"
                                 action={() => answerQuestion({ item })} onClose={closeModal}
-                                placeholder={"Odgovori na pitanje..."} />
-                        </Modal>
+                                placeholder={"Odgovori na pitanje..."} />} />
                     </View>
                 ) : null}
             </View>
@@ -53,7 +51,7 @@ const styles = StyleSheet.create({
     question: {
         backgroundColor: '#fafafa',
         width: 500,
-        height: 80,
+        height: 100,
         margin: 5
     },
     btn: {

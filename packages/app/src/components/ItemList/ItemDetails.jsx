@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, Platform, Pressable, Modal, ScrollView } from "react-native";
+import { StyleSheet, View, Text, Image, Pressable, ScrollView, Platform } from "react-native";
 import { useState, useEffect } from 'react';
 import ItemService from '../../services/ItemService.service'
 import { useSelector } from "react-redux";
@@ -6,6 +6,9 @@ import Questions from "../Questions/Questions";
 import UserService from "../../services/User.service";
 import BuyItem from "./BuyItem";
 import Alert from "../global/Alert";
+import Header from '../global/Header';
+import ModalComponent from "../global/ModalComponent";
+import url from '../../environment/config.json';
 
 const ItemDetails = ({ route, navigation }) => {
     const id = route.params.id;
@@ -46,56 +49,56 @@ const ItemDetails = ({ route, navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
-
+        <ScrollView>
+            {
+                Platform.OS==='windows'? (<Header navigation={navigation}/>):null
+            }
             <View style={styles.descriptionContainer}>
                 <View style={styles.imgContainer}>
                     {(item && item.image &&
-                        <Image source={{ uri: `http://192.168.0.182:8080/uploads/${item?.image}` }} style={styles.img} />
-                    ) || <Image source={{ uri: `http://192.168.0.182:8080/uploads/default-image.jpg` }} style={styles.img} />
+                        <Image source={{ uri: `${url.url}/uploads/${item?.image}` }} style={styles.img} />
+                    ) || <Image source={{ uri: `${url.url}/uploads/default-image.jpg` }} style={styles.img} />
                     }
+
                 </View>
                 <View style={styles.description}>
                     <Pressable onPress={() => setModalVisible(true)} style={styles.btn}>
                         <Text style={styles.btnText}>Kupi</Text>
                     </Pressable>
                     <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Osnovne informacije</Text>
-                    <Text style={styles.title}>Naziv</Text>
-                    <Text style={styles.text}>{item?.title}</Text>
                     <Text style={styles.title}>Opis</Text>
                     <Text style={styles.text}>{item?.description}</Text>
                     <Text style={styles.title}>Cijena</Text>
                     <Text style={styles.text}>{item?.price} KM</Text>
                     <Text style={styles.title}>Stanje</Text>
-                    <Text style={styles.text}>{item?.used ? "Novo" : "Korišteno"}</Text>
+                    <Text style={styles.text}>{item?.used ? "Korišteno" : "Novo"}</Text>
                     <Text style={styles.title}>Lokacija</Text>
                     <Text style={styles.text}>{item?.location}</Text>
                     <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20 }}>Vlasnik</Text>
                     <Text style={styles.title}>{user?.username}</Text>
                     <Text style={styles.title}>Kontakt: {user?.email}</Text>
-                    <Modal transparent visible={modalVisible}>
-                        <BuyItem buyItem={buyItem} onCancel={onCancel} />
-                    </Modal>
+                    <ModalComponent visible={modalVisible} component={()=><BuyItem buyItem={buyItem} onCancel={onCancel} />}/>
                 </View>
-                <Modal transparent visible={alertVisible}>
-                    <Alert title={"Informacija"} text={"Uspješno ste kupili proizvod!"} onOk={closeAlert} />
-                </Modal>
+
+                <ModalComponent visible={alertVisible} component={()=><Alert title={"Informacija"} text={"Uspješno ste kupili proizvod!"} onOk={closeAlert}/>} />
+                <View style={{ marginTop: 30, minWidth: '60%', marginLeft: 10 }}>
+                    <Questions itemId={id} myItem={isMyItem} />
+                </View>
             </View>
-            <View style={{ margin: 30 }}>
-                <Questions itemId={id} myItem={isMyItem} />
-            </View>
-        </View>
+
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         display: 'flex',
         padding: 24,
+        flexWrap: 'wrap',
+        overflow: 'scroll'
+
     },
     actions: {
-        flex: 1,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -104,33 +107,31 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         paddingTop: 5,
-        marginLeft: 5
+        marginLeft: 5,
+        marginRight: 5
     },
     text: {
         padding: 5,
-        marginLeft: 5
+        marginLeft: 5,
+        maxWidth: 400
     },
     descriptionContainer: {
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap'
-    },
-    description: {
-        flex: 1,
-
+        justifyContent: 'flex-start',
+        flexWrap: 'wrap',
+        margin: 10
     },
     imgContainer: {
-        flex: 1,
         flexDirection: 'row',
         flexWrap: 'nowrap',
+        width: Platform.OS==='android'?300: 500,
+        height: Platform.OS==='android'?300: 450,
+        minWidth: '50%',
+        margin: 10
     },
     img: {
-        width: 500,
-        height: 400
-    },
-    description: {
-        flex: 1
+        width: Platform.OS==='android'?300: 500,
+        height: Platform.OS==='android'?300: 450,
     },
     btn: {
         width: 200,
@@ -139,7 +140,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 10
     },
     actionBtn: {
         width: 100,
@@ -154,6 +156,33 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#fff'
     },
+    header: {
+        paddingHorizontal: 24,
+        height: 80,
+        backgroundColor: '#0e4a38',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    headerText: {
+        fontSize: 40,
+        color: '#fff',
+        pointerEvents: 'box-only'
+    },
+    image: {
+        width: 30,
+        height: 30
+    },
+    menu: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    description: {
+        marginTop: 5,
+        minWidth: '45%'
+    }
 })
 
 export default ItemDetails;

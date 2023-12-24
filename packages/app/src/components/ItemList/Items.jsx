@@ -1,17 +1,20 @@
-import { FlatList, StyleSheet, View, ActivityIndicator, Dimensions, Pressable, Modal, Text, TextInput, Image } from "react-native";
+import { FlatList, StyleSheet, View, ActivityIndicator, Dimensions, Pressable, Text, TextInput, Image, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 import Card from './Card'
 import { getAllItems } from '../../redux/slices/itemSlice';
 import Filter from "./Filter";
 import { useSelector, useDispatch } from "react-redux";
 import { setPageValue } from "../../redux/slices/itemSlice";
+import { useIsFocused } from '@react-navigation/native';
+import url from '../../environment/config.json';
+import ModalComponent from "../global/ModalComponent";
+import Header from '../global/Header';
 
 const Items = ({ navigation }) => {
     const dispatch = useDispatch();
     const items = useSelector(state => state.items.items);
-    const user = useSelector(state => state.users.user)
     const isLoading = useSelector(state => state.items.loading);
-    const [col, setCol] = useState(1);
+    const [col, setCol] = useState(3);
     const [searchTerm, setSearchTerm] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
     const [categoryId, setCategoryId] = useState("");
@@ -20,6 +23,7 @@ const Items = ({ navigation }) => {
     const [location, setLocation] = useState("");
     const [filter, setFilter] = useState(false);
     const [rmFilters, setRmFilters] = useState(false);
+    const isFocused = useIsFocused();
 
     const totalPages = useSelector(state => state.items.totalPages);
     const currentPage = useSelector(state => state.items.page);
@@ -34,21 +38,21 @@ const Items = ({ navigation }) => {
         }
 
         const buttons = [];
-
-        for (let i = startPage; i < endPage; i++) {
-            buttons.push(
-                <Pressable
-                    key={i}
-                    onPress={() => handlePageClick(i)}
-                    style={[
-                        styles.paginationButton,
-                        i === currentPage ? styles.activeButton : null,
-                    ]}>
-                    <Text style={{ color: 'white' }}>{i}</Text>
-                </Pressable>,
-            );
+        if (startPage !== endPage - 1) {
+            for (let i = startPage; i < endPage; i++) {
+                buttons.push(
+                    <Pressable
+                        key={i}
+                        onPress={() => handlePageClick(i)}
+                        style={[
+                            styles.paginationButton,
+                            i === currentPage ? styles.activeButton : null,
+                        ]}>
+                        <Text style={{ color: 'white' }}>{i}</Text>
+                    </Pressable>,
+                );
+            }
         }
-
         return buttons;
     };
 
@@ -59,7 +63,8 @@ const Items = ({ navigation }) => {
 
     useEffect(() => {
         dispatch(getAllItems({ "searchTerm": searchTerm, "categoryId": categoryId, "lowerPrice": lowerPrice, "upperPrice": upperPrice, "location": location }));
-    }, [currentPage, searchTerm, filter])
+    }, [currentPage, searchTerm, filter, isFocused])
+    
 
     useEffect(() => {
         if (categoryId != "" || upperPrice != "" || lowerPrice != "" || location != "") {
@@ -113,7 +118,10 @@ const Items = ({ navigation }) => {
                 }
             },
         );
-    })
+        if(Platform.OS==='android'){
+            setCol(1);
+        }
+    }, [Platform])
 
     const goToMyOffers = () => {
         navigation.navigate('Offers')
@@ -121,23 +129,24 @@ const Items = ({ navigation }) => {
 
     return (
         <View style={styles.content}>
+            {
+                Platform.OS==='windows'?(<Header navigation={navigation} />):null
+            }
             <View style={styles.container}>
                 <TextInput style={styles.inputSearch} inputMode="search" placeholder="Pretraga..." placeholderTextColor={'#fff'} onChangeText={(val) => searchItems(val)} />
                 <View style={styles.optionsContainer}>
                     <Pressable style={{ marginRight: 30 }} onPress={goToMyOffers}>
-                        <Image style={styles.image} source={{ uri: "http://192.168.0.182:8080/uploads/assets/baseline_list_white_24dp.png" }} />
+                        <Image style={styles.image} source={{ uri: `${url.url}/uploads/assets/baseline_list_white_24dp.png` }} />
                     </Pressable>
                     <Pressable onPress={() => setModalVisible(true)}>
-                        <Image style={styles.image} source={{ uri: "http://192.168.0.182:8080/uploads/assets/baseline_filter_list_white_24dp.png" }} />
+                        <Image style={styles.image} source={{ uri: `${url.url}/uploads/assets/baseline_filter_list_white_24dp.png` }} />
                     </Pressable>
                 </View>
             </View>
 
-            <Modal transparent visible={modalVisible}>
-                <Filter removeFilters={removeFilters} setCategoryId={setCategoryId} categoryId={categoryId}
+            <ModalComponent visible={modalVisible} component={()=><Filter removeFilters={removeFilters} setCategoryId={setCategoryId} categoryId={categoryId}
                     setLowerPrice={setLowerPrice} setUpperPrice={setUpperPrice} setLocation={setLocation}
-                    setFilter={doFilter} />
-            </Modal>
+                    setFilter={doFilter} />} />
 
             <View style={styles.content}>
                 {isLoading ? (
@@ -245,7 +254,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0e4a38',
     },
     activeButton: {
-        backgroundColor: '#22c55d',
+        backgroundColor: '#0e4a38',
         width: 50,
         height: 50,
         borderRadius: 25,

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { FlatList, Pressable, StyleSheet, View, Text, ActivityIndicator, Modal } from "react-native";
+import { FlatList, Pressable, StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getActiveOffers, setActivePage } from "../../redux/slices/itemSlice";
 import AddItem from "./AddItem";
 import ActiveOffer from "./ActiveOffer";
+import ModalComponent from "../global/ModalComponent";
 
 const ActiveOffers = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,6 @@ const ActiveOffers = () => {
     const loading = useSelector(state => state.items.loading);
     const userId = useSelector(state => state.users.user.id);
     const [modalVisible, setModalVisible] = useState(false);
-    const itemLength = items.length;
     const totalPages = useSelector(state => state.items.activeTotal);
     const currentPage = useSelector(state => state.items.activeOffersPage);
 
@@ -33,21 +33,21 @@ const ActiveOffers = () => {
         }
 
         const buttons = [];
-
-        for (let i = startPage; i < endPage; i++) {
-            buttons.push(
-                <Pressable
-                    key={i}
-                    onPress={() => handlePageClick(i)}
-                    style={[
-                        styles.paginationButton,
-                        i === currentPage ? styles.activeButton : null,
-                    ]}>
-                    <Text style={{ color: 'white' }}>{i}</Text>
-                </Pressable>,
-            );
+        if (startPage !== endPage - 1) {
+            for (let i = startPage; i < endPage; i++) {
+                buttons.push(
+                    <Pressable
+                        key={i}
+                        onPress={() => handlePageClick(i)}
+                        style={[
+                            styles.paginationButton,
+                            i === currentPage ? styles.activeButton : null,
+                        ]}>
+                        <Text style={{ color: 'white' }}>{i}</Text>
+                    </Pressable>,
+                );
+            }
         }
-
         return buttons;
     };
 
@@ -61,10 +61,8 @@ const ActiveOffers = () => {
                 <Text style={styles.btnText}>+Dodaj ponudu</Text>
             </Pressable>
 
-            <Modal transparent visible={modalVisible} animationType="slide"
-                onRequestClose={() => { setModalVisible(!modalVisible); }}>
-                <AddItem modalTitle={"Dodavanje ponude"} onCancel={onCancel} editMode={false} />
-            </Modal>
+            <ModalComponent visible={modalVisible} component={()=><AddItem modalTitle={"Dodavanje ponude"} onCancel={onCancel} editMode={false} />}/>
+                
             {loading ? (
                 <ActivityIndicator />
             ) : (
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0e4a38',
     },
     activeButton: {
-        backgroundColor: '#22c55d',
+        backgroundColor: '#0e4a38',
         width: 50,
         height: 50,
         borderRadius: 25,

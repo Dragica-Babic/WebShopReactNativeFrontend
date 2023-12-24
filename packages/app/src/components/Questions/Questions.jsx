@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View, Text, Modal, Platform } from "react-native";
+import { Pressable, StyleSheet, View, Text, Platform } from "react-native";
 import QuestionService from "../../services/Question.service";
 import { useSelector } from "react-redux";
 import QuestionModal from "./QuestionModal";
 import Question from "./Question";
+import ModalComponent from "../global/ModalComponent";
 
 const Questions = ({ itemId, myItem }) => {
     const [questions, setQuestions] = useState([]);
@@ -20,12 +21,12 @@ const Questions = ({ itemId, myItem }) => {
         if (question !== "") {
             const response = QuestionService.askQuestion({ question, itemId, userId });
             if (response) {
-                setQuestions([...questions, response]);
+                setQuestions([...questions, response.payload]);
                 setQuestion("");
                 setQuestionModalVisible(false);
             }
-            setRefresh(!refresh);
         }
+        
     }
 
     const closeQuestionModal = () => {
@@ -37,13 +38,13 @@ const Questions = ({ itemId, myItem }) => {
         <View>
             <View style={styles.container}>
                 <Text style={styles.title}>Pitanja</Text>
-                <Pressable style={styles.btn} onPress={() => setQuestionModalVisible(true)}>
-                    <Text>+Postavi pitanje</Text>
-                </Pressable>
-                <Modal transparent visible={questionModalVisible}>
-                    <QuestionModal inputAction={setQuestion} title="Novo pitanje"
-                        action={askQuestion} onClose={closeQuestionModal} placeholder={"Postavi pitanje..."} />
-                </Modal>
+                {!myItem ?
+                    (<Pressable style={styles.btn} onPress={() => setQuestionModalVisible(true)}>
+                        <Text>+Postavi pitanje</Text>
+                    </Pressable>) : null
+                }
+                <ModalComponent visible={questionModalVisible} component={()=><QuestionModal inputAction={setQuestion} title="Novo pitanje"
+                        action={askQuestion} onClose={closeQuestionModal} placeholder={"Postavi pitanje..."} />} />
             </View>
             <View>
                 {questions.map((item, index) => {

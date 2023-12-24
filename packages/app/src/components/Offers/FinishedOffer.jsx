@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { View, Pressable, Image, Text, Modal, StyleSheet } from "react-native";
+import { View, Pressable, Image, Text, StyleSheet } from "react-native";
 import FinishedOfferInfo from "./FinishedOfferInfo";
+import ModalComponent from "../global/ModalComponent";
+import url from '../../environment/config.json';
 
 const FinishedOffer = ({ item }) => {
 
@@ -14,14 +16,12 @@ const FinishedOffer = ({ item }) => {
         <Pressable onPress={() => setModalVisible(true)}>
             <View style={styles.row}>
                 {(item && item.image &&
-                    <Image source={{ uri: `http://192.168.0.182:8080/uploads/${item?.image}` }} style={styles.img} />
-                ) || <Image source={{ uri: `http://192.168.0.182:8080/uploads/default-image.jpg` }} style={styles.img} />
+                    <Image source={{ uri: `${url.url}/uploads/${item?.image}` }} style={styles.img} />
+                ) || <Image source={{ uri: `${url.url}/uploads/default-image.jpg` }} style={styles.img} />
                 }
                 <Text>{item.title}</Text>
                 <Text>{item.price}KM</Text>
-                <Modal transparent visible={modalVisible}>
-                    <FinishedOfferInfo item={item} onCancel={onCancel} />
-                </Modal>
+                <ModalComponent visible={modalVisible} component={()=><FinishedOfferInfo item={item} onCancel={onCancel} />} />
             </View>
         </Pressable>
     )
