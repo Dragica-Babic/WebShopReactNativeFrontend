@@ -6,6 +6,10 @@
     <ProjectReference Include="$(ProjectDir)..\..\node_modules\@react-native-picker\picker\windows\ReactNativePicker\ReactNativePicker.vcxproj">
       <Project>{bedcc600-4541-41f2-aa46-9e058202b6ad}</Project>
     </ProjectReference>
+    <!-- Projects from react-native-document-picker -->
+    <ProjectReference Include="$(ProjectDir)..\..\node_modules\react-native-document-picker\windows\ReactNativeDocumentPicker\ReactNativeDocumentPicker.csproj">
+      <Project>{A4C9C727-0AEB-4A3D-B547-BEDB812B172D}</Project>
+    </ProjectReference>
     <!-- Projects from react-native-screens -->
     <ProjectReference Include="$(ProjectDir)..\..\node_modules\react-native-screens\windows\RNScreens\RNScreens.vcxproj">
       <Project>{d638f49e-29d2-4699-ac52-facd82fa7138}</Project>
