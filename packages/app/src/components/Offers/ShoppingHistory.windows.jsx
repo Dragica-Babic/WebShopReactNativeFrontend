@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FlatList, StyleSheet, View, Text, Image, ActivityIndicator, Pressable } from "react-native";
 import { getHistory, setHistoryPage } from "../../redux/slices/itemSlice";
 import Header from "../global/Header";
+import url from '../../environment/config.json';
 
 const ShoppingHistory = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -26,21 +27,21 @@ const ShoppingHistory = ({ navigation }) => {
         }
 
         const buttons = [];
-
-        for (let i = startPage; i < endPage; i++) {
-            buttons.push(
-                <Pressable
-                    key={i}
-                    onPress={() => handlePageClick(i)}
-                    style={[
-                        styles.paginationButton,
-                        i === currentPage ? styles.activeButton : null,
-                    ]}>
-                    <Text style={{ color: 'white' }}>{i}</Text>
-                </Pressable>,
-            );
+        if (startPage !== endPage - 1) {
+            for (let i = startPage; i < endPage; i++) {
+                buttons.push(
+                    <Pressable
+                        key={i}
+                        onPress={() => handlePageClick(i)}
+                        style={[
+                            styles.paginationButton,
+                            i === currentPage ? styles.activeButton : null,
+                        ]}>
+                        <Text style={{ color: 'white' }}>{i}</Text>
+                    </Pressable>,
+                );
+            }
         }
-
         return buttons;
     };
 
@@ -53,7 +54,7 @@ const ShoppingHistory = ({ navigation }) => {
     }
 
     const goToActiveOffers = () => {
-        navigation.navigate('ActiveOffers');
+        navigation.navigate('Offers');
     }
 
     return (
@@ -86,8 +87,8 @@ const ShoppingHistory = ({ navigation }) => {
                             return (
                                 <View style={styles.row}>
                                     {(item && item.image &&
-                                        <Image source={{ uri: `http://192.168.0.182:8080/uploads/${item?.image}` }} style={styles.img} />
-                                    ) || <Image source={{ uri: `http://192.168.0.182:8080/uploads/default-image.jpg` }} style={styles.img} />
+                                        <Image source={{ uri: `${url.url}/uploads/${item?.image}` }} style={styles.img} />
+                                    ) || <Image source={{ uri: `${url.url}/uploads/default-image.jpg` }} style={styles.img} />
                                     }
                                     <Text>{item.title}</Text>
                                     <Text>{item.price} KM</Text>
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0e4a38',
     },
     activeButton: {
-        backgroundColor: '#22c55d',
+        backgroundColor: '#0e4a38',
         width: 50,
         height: 50,
         borderRadius: 25,

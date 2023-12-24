@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import url from '../../environment/config.json';
 
 const Card = ({ title, price, image, details }) => {
 
@@ -10,10 +11,10 @@ const Card = ({ title, price, image, details }) => {
                         {title}
                     </Text>
                 </View>
-                <View style={styles.content}>
+                <View style={styles.content} onPress={details}>
                     {(image &&
-                        <Image source={{ uri: `http://192.168.0.182:8080/uploads/${image}` }} style={styles.img} />
-                    ) || <Image source={{ uri: `http://192.168.0.182:8080/uploads/default-image.jpg` }} style={styles.img} />
+                        <Image source={{ uri: `${url.url}/uploads/${image}` }} style={styles.img} />
+                    ) || <Image source={{ uri: `${url.url}/uploads/default-image.jpg` }} style={styles.img} />
                     }
                     <View style={styles.details}>
                         <Text>{price}KM</Text>

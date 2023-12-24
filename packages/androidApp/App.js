@@ -11,6 +11,7 @@ import AllOffers from '@web-shop/app/src/components/Offers/AllOffers';
 import { logout } from '@web-shop/app/src/redux/slices/userSlice'
 import UpdateUser from '@web-shop/app/src/components/global/UpdateUser';
 import Registration from '@web-shop/app/src/components/StartPage/Registration';
+import url from '../app/src/environment/config.json';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,11 +25,11 @@ const HeaderMenu = () => {
   return (
     <View style={{ flexDirection: "row" }}>
       <Pressable style={{ marginRight: 20 }} onPress={() => setModalVisible(true)} >
-        <Image source={{ uri: 'http://192.168.0.182:8080/uploads/assets/baseline_account_circle_white_24dp.png' }}
+        <Image source={{ uri: `${url.url}/uploads/assets/baseline_account_circle_white_24dp.png` }}
           resizeMode="cover" style={styles.image} />
       </Pressable>
       <Pressable onPress={() => dispatch(logout())}>
-        <Image source={{ uri: 'http://192.168.0.182:8080/uploads/assets/baseline_logout_white_24dp.png' }}
+        <Image source={{ uri: `${url.url}/uploads/assets/baseline_logout_white_24dp.png` }}
           resizeMode="cover" style={styles.image} />
       </Pressable>
       <Modal transparent visible={modalVisible} >
