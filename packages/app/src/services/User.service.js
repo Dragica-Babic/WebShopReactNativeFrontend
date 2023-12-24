@@ -29,7 +29,7 @@ const signup = async (request) => {
       username: request.username,
       password: request.password,
       email: request.email,
-      address: request.email
+      address: request.address
     })
   });
   if (!response.ok) {
@@ -50,7 +50,7 @@ const updateUser = async (id, request) => {
       username: request.username,
       password: request.password,
       email: request.email,
-      address: request.email
+      address: request.address
     })
   });
   if (!response.ok) {
