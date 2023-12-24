@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Platform, TextInput, Pressable, Text } from "react-native";
+import { StyleSheet, View, Platform, TextInput, Pressable, Text, Dimensions } from "react-native";
 import { useDispatch } from "react-redux";
 import { signup } from "../../redux/slices/userSlice";
+import Header from "../global/Header";
 
-const Registration = () => {
+const Registration = ({navigation}) => {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -45,8 +46,17 @@ const Registration = () => {
         }
     }
 
+    const goToLogin=()=>{
+        navigation.navigate('Login');
+    }
+
     return (
+        <View>
+            {Platform.OS==='windows'?(
+                <Header navigation={navigation} />
+            ):null}
         <View style={styles.container}>
+            
             <View style={styles.content}>
                 <View>
                     <Text>Registracija</Text>
@@ -98,12 +108,19 @@ const Registration = () => {
                     <Pressable style={styles.btn} onPress={signUp}>
                         <Text style={styles.btnText}>Registruj se</Text>
                     </Pressable>
+                    <View style={{ backgroundColor: "gray", height: 2, marginTop: 20, marginBottom: 20 }} />
+                </View>
+                <View>
+                    <Pressable style={styles.regBtn} onPress={goToLogin}>
+                        <Text style={{ color: 'black' }}>Prijavi se</Text>
+                    </Pressable>
                 </View>
                 <View>
                     <Text style={{ color: "red" }}>{message}</Text>
                 </View>
             </View>
         </View >
+        </View>
     )
 }
 
@@ -111,8 +128,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: Platform.OS === 'web' ? '87vh' : '100%',
-        backgroundColor: '#f5f5f5'
+        backgroundColor: '#f5f5f5',
+        height: Dimensions.get('window').height - 80
     },
     input: {
         height: 40,
@@ -137,11 +154,23 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 15,
         padding: 16,
-        width: 350,
-        height: 500,
-        justifyContent: 'center',
+        width:350,
+        height:550,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    regBtn: {
+        marginTop: 10,
+        width: 200,
+        backgroundColor: '#fff',
+        height: 35,
+        display: 'flex',
         alignItems: 'center',
-    }
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: 'black'
+    },
 })
 
 export default Registration;

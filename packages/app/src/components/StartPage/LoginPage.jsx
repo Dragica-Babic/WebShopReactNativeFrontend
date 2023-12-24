@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable, Platform } from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable, Platform, Dimensions } from "react-native";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/userSlice";
 import { useSelector } from "react-redux";
+import Header from "../global/Header";
 
 const LoginPage = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -36,7 +37,12 @@ const LoginPage = ({ navigation }) => {
     }
 
     return (
+        <View>
+            {Platform.OS==='windows'?(
+                <Header navigation={navigation} />
+            ):null}
         <View style={styles.container}>
+            
             <View style={styles.content}>
                 <View>
                     <Text style={{ color: "black" }}>Prijava na sistem</Text>
@@ -80,6 +86,7 @@ const LoginPage = ({ navigation }) => {
                 </View>
             </View>
         </View>
+        </View>
     )
 }
 
@@ -87,8 +94,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: Platform.OS === 'web' ? '87vh' : '100%',
-        backgroundColor: '#f5f5f5'
+        backgroundColor: '#f5f5f5',
+        height: Dimensions.get('window').height - 80
     },
     input: {
         height: 40,
@@ -126,10 +133,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 15,
         padding: 16,
-        width: 350,
-        height: 350,
-        justifyContent: 'center',
-        alignItems: 'center',
+        width:350,
+        height:350,
+        alignItems:'center',
+        justifyContent:'center'
     }
 })
 
