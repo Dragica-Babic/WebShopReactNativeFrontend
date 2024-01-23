@@ -1,6 +1,7 @@
-import { StyleSheet, View, Text, Pressable, Modal } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import QuestionModal from "./QuestionModal";
 import { useState } from "react";
+import { Popup } from 'react-native-windows';
 
 const Question = ({ item, myItem }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -21,9 +22,9 @@ const Question = ({ item, myItem }) => {
                         <Pressable style={styles.btn} onPress={() => setModalVisible(true)}>
                             <Text>Odgovori</Text>
                         </Pressable>
-                        <Modal transparent visible={modalVisible} >
+                        <Popup isOpen={modalVisible} >
                             <QuestionModal onClose={closeModal} item={item} />
-                        </Modal>
+                        </Popup>
                     </View>
                 ) : null}
             </View>

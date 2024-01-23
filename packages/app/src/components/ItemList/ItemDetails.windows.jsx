@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, Pressable, ScrollView, Platform, Modal } from "react-native";
+import { StyleSheet, View, Text, Image, Pressable, ScrollView, Platform } from "react-native";
 import { useState, useEffect } from 'react';
 import ItemService from '../../services/ItemService.service'
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import Header from '../global/Header';
 import url from '../../environment/config.json';
 import AddQuestionModal from "../Questions/AddQuestionModal";
 import QuestionService from "../../services/Question.service";
+import { Popup } from "react-native-windows";
 
 const ItemDetails = ({ route, navigation }) => {
     const id = route.params.id;
@@ -83,8 +84,6 @@ const ItemDetails = ({ route, navigation }) => {
                         <Text style={styles.btnText}>Kupi</Text>
                     </Pressable>
                     <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Osnovne informacije</Text>
-                    <Text style={styles.title}>Naziv</Text>
-                    <Text style={styles.text}>{item?.title}</Text>
                     <Text style={styles.title}>Opis</Text>
                     <Text style={styles.text}>{item?.description}</Text>
                     <Text style={styles.title}>Cijena</Text>
@@ -96,25 +95,25 @@ const ItemDetails = ({ route, navigation }) => {
                     <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20 }}>Vlasnik</Text>
                     <Text style={styles.title}>{user?.username}</Text>
                     <Text style={styles.title}>Kontakt: {user?.email}</Text>
-                    <Modal transparent visible={modalVisible} >
+                    <Popup isOpen={modalVisible} >
                         <BuyItem buyItem={buyItem} onCancel={onCancel} />
-                    </Modal>
+                    </Popup>
                 </View>
 
-                <Modal transparent visible={alertVisible} >
+                <Popup isOpen={alertVisible} >
                     <Alert title={"Informacija"} text={"Uspješno ste kupili proizvod!"} onOk={closeAlert} />
-                </Modal>
+                </Popup>
                 <View style={{ marginTop: 30, minWidth: '60%', marginLeft: 10 }}>
-                    <View style={styles.questionsContainer}>
-                        <Text style={styles.questionsTitle}>Pitanja</Text>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>Pitanja</Text>
                         {!isMyItem ?
-                            (<Pressable style={styles.questionBtn} onPress={() => setQuestionModalVisible(true)}>
+                            (<Pressable style={styles.btn} onPress={() => setQuestionModalVisible(true)}>
                                 <Text>+Postavi pitanje</Text>
                             </Pressable>) : null
                         }
-                        <Modal transparent visible={questionModalVisible} >
+                        <Popup isOpen={questionModalVisible} >
                             <AddQuestionModal onClose={closeQuestionModal} itemId={id} />
-                        </Modal>
+                        </Popup>
                     </View>
                     <View>
                         {questions.map((item, index) => {
@@ -223,25 +222,6 @@ const styles = StyleSheet.create({
     description: {
         marginTop: 5,
         minWidth: '45%'
-    },
-    questionsContainer:{
-        flexDirection: 'row',
-    },
-    questionsTitle:{
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginRight: Platform.OS === 'android' ? 100 : 200
-    },
-    questionBtn:{
-        borderWidth: 1,
-        borderColor: '#0e4a38',
-        borderRadius: 10,
-        width: 150,
-        margin: 10,
-        height: 25,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
     }
 })
 

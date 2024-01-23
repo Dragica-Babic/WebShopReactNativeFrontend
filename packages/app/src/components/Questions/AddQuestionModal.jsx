@@ -1,31 +1,30 @@
-import { View, StyleSheet, Text, TextInput, Pressable } from "react-native";
 import { useState } from "react";
+import { View, StyleSheet, Text, TextInput, Pressable } from "react-native";
+import { useSelector } from "react-redux";
 import QuestionService from "../../services/Question.service";
 
-const QuestionModal = ({ onClose, item }) => {
-    const [answer, setAnswer]=useState("");
+const AddQuestionModal = ({onClose, itemId}) => {
+    const [question, setQuestion]=useState("");
+    const userId=useSelector(state=>state.users.user.id);
 
-    const answerQuestion=()=>{
-        item.answer=answer;
-        const question=item;
-        QuestionService.answerQuestion({answer, question});
+    const addQuestion=()=>{
+        QuestionService.askQuestion({question, itemId, userId});
         onClose();
     }
 
     return (
         <View style={styles.modal}>
             <View>
-                <Text style={styles.modalTitle}>Odgovor</Text>
+                <Text style={styles.modalTitle}>Novo pitanje</Text>
             </View>
 
             <View>
                 <View style={{ backgroundColor: "green", height: 2, margin: 2 }} />
-                <TextInput style={styles.input} onChangeText={(val) => setAnswer(val)} placeholder="Odgovori na pitanje..." placeholderTextColor={"gray"} multiline={true}
+                <TextInput style={styles.input} onChangeText={(val) => setQuestion(val)} placeholder="Postavi pitanje..." placeholderTextColor={"gray"} multiline={true}
                     numberOfLines={4} />
-                    
             </View>
             <View style={styles.row}>
-                <Pressable style={styles.btn} onPress={answerQuestion}>
+                <Pressable style={styles.btn} onPress={addQuestion}>
                     <Text style={styles.btnText}>OK</Text>
                 </Pressable>
                 <Pressable style={styles.btn} onPress={onClose}>
@@ -43,11 +42,10 @@ const styles = StyleSheet.create({
         borderColor: '#eee',
         borderRadius: 10,
         borderWidth: 1,
-        justifyContent: 'flex-start',
-        height: 200,
-        margin: 'auto',
+        justifyContent: 'space-between',
+        margin:'auto',
         padding: 30,
-        width: 350,
+        width: 450,
         height: 250
     },
     modalTitle: {
@@ -83,4 +81,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default QuestionModal;
+export default AddQuestionModal;

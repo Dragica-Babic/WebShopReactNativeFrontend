@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image, Platform } from "react-native";
 import url from '../../environment/config.json';
 
 const Card = ({ title, price, image, details }) => {
@@ -6,16 +6,12 @@ const Card = ({ title, price, image, details }) => {
     return (
         <View style={styles.cardContainer}>
             <View style={styles.card}>
-                <View style={styles.header}>
-                    <Text style={styles.title} numberOfLines={1} ellipsizeMode="middle" >
-                        {title}
-                    </Text>
-                </View>
                 <View style={styles.content} onPress={details}>
                     {(image &&
                         <Image source={{ uri: `${url.url}/uploads/${image}` }} style={styles.img} />
                     ) || <Image source={{ uri: `${url.url}/uploads/default-image.jpg` }} style={styles.img} />
                     }
+                    <Text style={styles.title} numberOfLines={1} ellipsizeMode="middle">{title}</Text>
                     <View style={styles.details}>
                         <Text>{price}KM</Text>
                         <Pressable style={styles.btn} onPress={details}>
@@ -38,10 +34,8 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: 'white',
-        borderRadius: 15,
-        padding: 16,
-        width: 350,
-        height: 350,
+        width:Platform.OS==='android'?190: 200,
+        height: 300,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -50,11 +44,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 30,
+        fontSize: 14,
         fontWeight: 'bold',
-        color: 'green',
+        color: '#0e4a38',
         textAlign: 'left',
-        width: 300
+        margin:10,
+        padding:2
     },
     content: {
         flex: 1,
@@ -62,7 +57,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     img: {
-        width: 200,
+        width: Platform.OS==='android'? 190: 200,
         height: 200
     },
     details: {

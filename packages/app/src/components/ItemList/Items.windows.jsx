@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, ActivityIndicator, Dimensions, Pressable, Text, TextInput, Image, Platform, Modal } from "react-native";
+import { FlatList, StyleSheet, View, ActivityIndicator, Dimensions, Pressable, Text, TextInput, Image, Platform, ScrollView } from "react-native";
 import React, { useState, useEffect } from "react";
 import Card from './Card'
 import { getAllItems } from '../../redux/slices/itemSlice';
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPageValue } from "../../redux/slices/itemSlice";
 import { useIsFocused } from '@react-navigation/native';
 import url from '../../environment/config.json';
+import { Popup } from 'react-native-windows';
 import Header from '../global/Header';
 
 const Items = ({ navigation }) => {
@@ -118,7 +119,7 @@ const Items = ({ navigation }) => {
             },
         );
         if (Platform.OS === 'android') {
-            setCol(2);
+            setCol(1);
         }
     }, [Platform])
 
@@ -127,7 +128,7 @@ const Items = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.content}>
+        <ScrollView style={styles.content}>
             {
                 Platform.OS === 'windows' ? (<Header navigation={navigation} />) : null
             }
@@ -143,11 +144,11 @@ const Items = ({ navigation }) => {
                 </View>
             </View>
 
-            <Modal transparent visible={modalVisible} >
+            <Popup isOpen={modalVisible} >
                 <Filter removeFilters={removeFilters} setCategoryId={setCategoryId} categoryId={categoryId}
                     setLowerPrice={setLowerPrice} setUpperPrice={setUpperPrice} setLocation={setLocation}
                     setFilter={doFilter} />
-            </Modal>
+            </Popup>
 
             <View style={styles.content}>
                 {isLoading ? (
@@ -162,10 +163,11 @@ const Items = ({ navigation }) => {
                             </View>
                         ) : null
                         }
-
+                        
+                        
                         <FlatList data={items}
                             showsHorizontalScrollIndicator={false}
-                            numColumns={col}
+                            
                             key={col}
                             keyExtractor={({ id }) => id}
                             renderItem={({ item }) => {
@@ -174,7 +176,8 @@ const Items = ({ navigation }) => {
                                         image={item.image} description={item.description} location={item.location}
                                         details={() => goToDetails({ item })} />
                                 )
-                            }}></FlatList>
+                            }}
+                            ></FlatList>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 10 }}>
                             {renderPaginationButtons()}
                         </View>
@@ -182,7 +185,7 @@ const Items = ({ navigation }) => {
                     </View>
                 )}
             </View>
-        </View>
+        </ScrollView>
     );
 }
 

@@ -1,10 +1,10 @@
 import url from '../environment/config.json';
 
-const getQuestions = async ({ itemId, setQuestions }) => {
+const getQuestions = async ({ itemId }) => {
     try {
         const response = await fetch(url.url + `/questions/${itemId}`);
         const json = await response.json();
-        setQuestions(json);
+        return json;
     } catch (error) {
         console.error(error);
     }

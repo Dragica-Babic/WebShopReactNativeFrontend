@@ -1,9 +1,10 @@
 import { Platform } from 'react-native';
 import url from '../environment/config.json';
 
+
 const getItems = async ({ page, searchTerm, categoryId, lowerPrice, upperPrice, location }) => {
   try {
-    const response = await fetch(url.url + `/items/all?page=${page}&size=6&search=${searchTerm}&categoryId=${categoryId}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}&location=${location}`, {
+    const response = await fetch(url.url + `/items/all?page=${page}&size=10&search=${searchTerm}&categoryId=${categoryId}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}&location=${location}`, {
       method: "GET"
     });
     const json = await response.json();
@@ -61,7 +62,7 @@ const buyItem = async ({ id, userId }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: userId
+      body: Platform.OS!=='web'? JSON.stringify(userId): userId
     });
     return response;
   } catch (error) {
@@ -104,26 +105,37 @@ const uploadImage = async (id, image) => {
     let type = 'image/' + filename.split('.').pop();
     formData.append("file", { uri: uri, name: filename, type: type });
   }
-
-  else if (Platform.OS === 'web') {
-    let imageUri = image.uri.replace("file://", "");
-    let parts = imageUri.split(';');
-    let type = parts[0].replace('data:', "");
-    let ext = type.split('/').pop();
-    let fileName = id + "." + ext;
-    console.log(fileName + " " + type);
-    formData.append("file", { uri: imageUri, name: fileName, type: type });
+  else if(Platform.OS==='windows'){
+    formData.append("file", {uri: image, name:'img.jpg'});
+  }
+  else {
+    const file = dataUriToBlob(image.uri)
+    console.log(image.uri);
+    formData.append('file', file, 'image.jpg') 
   }
 
   try {
     await fetch(url.url + `/items/${id}/upload-image`, {
       method: "POST",
-      body: formData,
+      body: formData
 
     })
   } catch (error) {
     console.log("greska:" + error)
   }
+}
+
+const dataUriToBlob = (dataURI) => {
+  const splitDataURI = dataURI.split(',')
+  const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+  const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+
+  const ia = new Uint8Array(byteString.length)
+  for (let i = 0; i < byteString.length; i++)
+    ia[i] = byteString.charCodeAt(i)
+
+  return new Blob([ia], { type: mimeString })
+
 }
 
 const deleteItem = async ({ id }) => {

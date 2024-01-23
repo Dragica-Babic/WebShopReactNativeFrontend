@@ -54,7 +54,7 @@ const FinishedOffers = () => {
             {loading ? (
                 <ActivityIndicator />
             ) : (
-                <View>
+                <View style={{paddingRight:10}}>
                     <FlatList data={items}
                         showsHorizontalScrollIndicator={false}
                         numColumns={1}

@@ -5,8 +5,8 @@ import CategoryService from "../../services/Category.service";
 import { Picker } from "@react-native-picker/picker";
 import ItemService from "../../services/ItemService.service";
 import Checkbox from 'expo-checkbox';
-import * as ImagePicker from 'expo-image-picker';
 import { getActiveOffers } from "../../redux/slices/itemSlice";
+import DocumentPicker from 'react-native-document-picker';
 
 const AddItem = ({ modalTitle, onCancel, item, editMode }) => {
     const dispatch = useDispatch();
@@ -38,16 +38,13 @@ const AddItem = ({ modalTitle, onCancel, item, editMode }) => {
     }
 
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
+        const res = await DocumentPicker.pickSingle({
+            type: [DocumentPicker.types.images],
         });
 
-        if (!result.canceled) {
-            setImage(result.assets[0]);
-        }
+        let uri = 'file:///' + res.uri.replace("\\", "/");
+        console.log(uri);
+        setImage(uri);
     };
 
     const saveItem = () => {
